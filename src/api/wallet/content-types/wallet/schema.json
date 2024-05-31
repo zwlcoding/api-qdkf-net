@@ -1,0 +1,37 @@
+{
+  "kind": "singleType",
+  "collectionName": "wallets",
+  "info": {
+    "singularName": "wallet",
+    "pluralName": "wallets",
+    "displayName": "wallet",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "deposit": {
+      "type": "float"
+    },
+    "binance_exchange": {
+      "type": "float"
+    },
+    "binance_wallet": {
+      "type": "float"
+    },
+    "bitget_exchange": {
+      "type": "float"
+    },
+    "bitget_wallet": {
+      "type": "float"
+    },
+    "okx_exchange": {
+      "type": "float"
+    },
+    "okx_wallet": {
+      "type": "float"
+    }
+  }
+}
