@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stakings",
+  "info": {
+    "singularName": "staking",
+    "pluralName": "stakings",
+    "displayName": "Staking"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "type": {
+      "type": "string"
+    },
+    "claims": {
+      "type": "boolean"
+    },
+    "startTime": {
+      "type": "date"
+    },
+    "endTime": {
+      "type": "date"
+    },
+    "siteUrl": {
+      "type": "text"
+    },
+    "desc": {
+      "type": "text"
+    }
+  }
+}

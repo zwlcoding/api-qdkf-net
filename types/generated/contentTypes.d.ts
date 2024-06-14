@@ -788,31 +788,31 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiTradeTrade extends Schema.CollectionType {
-  collectionName: 'trades';
+export interface ApiAccountAccount extends Schema.CollectionType {
+  collectionName: 'accounts';
   info: {
-    singularName: 'trade';
-    pluralName: 'trades';
-    displayName: 'trade';
+    singularName: 'account';
+    pluralName: 'accounts';
+    displayName: 'account';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    type: Attribute.String;
-    proportion_plan: Attribute.Decimal;
-    proportion_actual: Attribute.Decimal;
+    address: Attribute.String & Attribute.Unique;
+    chain: Attribute.String;
+    mint: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::trade.trade',
+      'api::account.account',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::trade.trade',
+      'api::account.account',
       'oneToOne',
       'admin::user'
     > &
@@ -820,7 +820,77 @@ export interface ApiTradeTrade extends Schema.CollectionType {
   };
 }
 
-export interface ApiWalletWallet extends Schema.SingleType {
+export interface ApiAirdropAirdrop extends Schema.CollectionType {
+  collectionName: 'airdrops';
+  info: {
+    singularName: 'airdrop';
+    pluralName: 'airdrops';
+    displayName: 'Airdrop';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    startTime: Attribute.Date;
+    endTime: Attribute.Date;
+    info: Attribute.RichText;
+    platform: Attribute.String;
+    gas: Attribute.Float;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::airdrop.airdrop',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::airdrop.airdrop',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiStakingStaking extends Schema.CollectionType {
+  collectionName: 'stakings';
+  info: {
+    singularName: 'staking';
+    pluralName: 'stakings';
+    displayName: 'Staking';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    type: Attribute.String;
+    claims: Attribute.Boolean;
+    startTime: Attribute.Date;
+    endTime: Attribute.Date;
+    siteUrl: Attribute.Text;
+    desc: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::staking.staking',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::staking.staking',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWalletWallet extends Schema.CollectionType {
   collectionName: 'wallets';
   info: {
     singularName: 'wallet';
@@ -832,13 +902,14 @@ export interface ApiWalletWallet extends Schema.SingleType {
     draftAndPublish: true;
   };
   attributes: {
-    deposit: Attribute.Float;
     binance_exchange: Attribute.Float;
     binance_wallet: Attribute.Float;
     bitget_exchange: Attribute.Float;
     bitget_wallet: Attribute.Float;
     okx_exchange: Attribute.Float;
     okx_wallet: Attribute.Float;
+    date: Attribute.Date;
+    coinbase_wallet: Attribute.Float;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -875,7 +946,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::trade.trade': ApiTradeTrade;
+      'api::account.account': ApiAccountAccount;
+      'api::airdrop.airdrop': ApiAirdropAirdrop;
+      'api::staking.staking': ApiStakingStaking;
       'api::wallet.wallet': ApiWalletWallet;
     }
   }

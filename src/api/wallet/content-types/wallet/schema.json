@@ -1,5 +1,5 @@
 {
-  "kind": "singleType",
+  "kind": "collectionType",
   "collectionName": "wallets",
   "info": {
     "singularName": "wallet",
@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "deposit": {
-      "type": "float"
-    },
     "binance_exchange": {
       "type": "float"
     },
@@ -31,6 +28,12 @@
       "type": "float"
     },
     "okx_wallet": {
+      "type": "float"
+    },
+    "date": {
+      "type": "date"
+    },
+    "coinbase_wallet": {
       "type": "float"
     }
   }

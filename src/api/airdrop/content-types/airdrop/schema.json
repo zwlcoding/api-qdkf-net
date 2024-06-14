@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "airdrops",
+  "info": {
+    "singularName": "airdrop",
+    "pluralName": "airdrops",
+    "displayName": "Airdrop"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "startTime": {
+      "type": "date"
+    },
+    "endTime": {
+      "type": "date"
+    },
+    "info": {
+      "type": "richtext"
+    },
+    "platform": {
+      "type": "string"
+    },
+    "gas": {
+      "type": "float"
+    }
+  }
+}

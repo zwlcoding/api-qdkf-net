@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "accounts",
+  "info": {
+    "singularName": "account",
+    "pluralName": "accounts",
+    "displayName": "account"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "address": {
+      "type": "string",
+      "unique": true
+    },
+    "chain": {
+      "type": "string"
+    },
+    "mint": {
+      "type": "boolean"
+    }
+  }
+}
