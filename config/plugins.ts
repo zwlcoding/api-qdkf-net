@@ -23,5 +23,9 @@ module.exports = ({ env }) => ({
         removeDataKey: true,
       }
     }
+  },
+  'wallet-login': {
+    enabled: true,
+    resolve: './src/plugins/wallet-login'
   }
 });
