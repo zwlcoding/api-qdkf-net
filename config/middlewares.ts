@@ -1,4 +1,4 @@
-module.exports = ({ env }) => [
+module.exports = ({env}) => [
   'strapi::logger',
   'strapi::errors',
   {
@@ -25,7 +25,16 @@ module.exports = ({ env }) => [
       },
     },
   },
-  'strapi::cors',
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: ['web3.qdkf.net'],
+      methods: ['GET', 'POST', 'HEAD', 'OPTIONS'],
+      headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
+      credentials: true,
+      keepHeaderOnError: true
+    }
+  },
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
