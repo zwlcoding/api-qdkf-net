@@ -28,7 +28,7 @@ module.exports = ({env}) => [
   {
     name: 'strapi::cors',
     config: {
-      origin: ['web3.qdkf.net'],
+      origin: ['https://web3.qdkf.net'],
       methods: ['GET', 'POST', 'HEAD', 'OPTIONS'],
       headers: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
       credentials: true,
