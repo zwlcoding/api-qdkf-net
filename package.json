@@ -1,38 +1,37 @@
 {
   "name": "api-qdkf-net",
-  "private": true,
-  "version": "0.1.0",
-  "description": "A Strapi application",
+  "version": "1.0.0",
+  "description": "",
   "scripts": {
-    "develop": "strapi develop",
-    "start": "strapi start",
-    "build": "strapi build",
-    "strapi": "strapi",
-    "deploy": "NODE_ENV=production strapi build"
+    "dev": "nodemon src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "pm2 start src/index.js --name=ollama-proxy",
+    "stop": "pm2 stop ollama-proxy",
+    "restart": "pnpm run stop && pnpm run build && pnpm run start",
+    "check": "biome check --write",
+    "format": "biome format --write"
   },
-  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^22.13.10",
+    "@types/react": "^19.0.11",
+    "nodemon": "^3.1.9",
+    "pm2": "^6.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
   "dependencies": {
-    "@strapi/plugin-cloud": "4.24.3",
-    "@strapi/plugin-i18n": "4.24.3",
-    "@strapi/plugin-users-permissions": "4.24.3",
-    "@strapi/strapi": "4.24.3",
-    "mysql": "2.18.1",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "5.3.4",
-    "strapi-plugin-transformer": "^3.1.2",
-    "strapi-provider-upload-oss": "^0.2.0",
-    "styled-components": "5.3.3"
-  },
-  "author": {
-    "name": "A Strapi developer"
-  },
-  "strapi": {
-    "uuid": "bf1833d3-2917-41ef-a520-d94f2549cd4c"
-  },
-  "engines": {
-    "node": ">=18.0.0 <=20.x.x",
-    "npm": ">=6.0.0"
-  },
-  "license": "MIT"
+    "@fastify/cors": "^11.0.0",
+    "@fastify/env": "^5.0.2",
+    "@fastify/sensible": "^6.0.3",
+    "@react-email/components": "^0.0.34",
+    "fastify": "^5.2.1",
+    "fastify-plugin": "^5.0.1",
+    "react": "^19.0.0",
+    "resend": "^4.1.2"
+  }
 }

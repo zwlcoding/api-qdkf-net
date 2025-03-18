@@ -1,18 +1,38 @@
-export default {
-  /**
-   * An asynchronous register function that runs before
-   * your application is initialized.
-   *
-   * This gives you an opportunity to extend code.
-   */
-  register(/*{ strapi }*/) {},
+/// <reference path="../global.d.ts" />
 
-  /**
-   * An asynchronous bootstrap function that runs before
-   * your application gets started.
-   *
-   * This gives you an opportunity to set up your data model,
-   * run jobs, or perform some special logic.
-   */
-  bootstrap(/*{ strapi }*/) {},
+import Fastify from 'fastify';
+
+import { registerPlugins } from './plugins/index';
+import { registerRoutes } from './routes/index';
+
+const fastify = Fastify({ logger: true });
+
+const initialize = async () => {
+  try {
+    await registerPlugins(fastify);
+    await registerRoutes(fastify);
+  } catch (error) {
+    fastify.log.error(error);
+    process.exit(1);
+  }
 };
+
+const startServer = async () => {
+  try {
+    const env = fastify.getEnvs<EnvSchema>()
+    await fastify.listen({
+      host: env.SERVE_HOST,
+      port: parseInt(env.SERVE_PORT, 10),
+    });
+  } catch (error) {
+    fastify.log.error(error);
+    process.exit(1);
+  }
+};
+
+initialize()
+  .then(() => startServer())
+  .catch((error) => {
+    fastify.log.error(error);
+    process.exit(1);
+  });
