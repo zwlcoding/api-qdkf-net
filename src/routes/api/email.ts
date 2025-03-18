@@ -5,13 +5,26 @@ import WaitlistEmail from '../../emails/waitlist'
 
 const prisma = new PrismaClient()
 
+// 定义标准错误响应
+const errorResponses = {
+  emailRequired: { code: 400, sub_code: '', msg: 'email is required', sub_msg: '' },
+  didRequired: { code: 400, sub_code: '', msg: 'did is required', sub_msg: '' },
+  invalidEmail: { code: 400, sub_code: '', msg: 'email is invalid', sub_msg: '' },
+  emailExists: { code: 400, sub_code: '', msg: 'email already exists', sub_msg: '' },
+  systemError: { code: 500, sub_code: '', msg: 'system error', sub_msg: '' }
+};
+
+// 邮箱验证函数
+const isValidEmail = (email: string): boolean => {
+  const reg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
+  return reg.test(email);
+};
 
 const emailRoutes = (fastify: FastifyInstance) => {
-
   const env = fastify.getEnvs<EnvSchema>()
   const resend = new Resend(env.RESEND_API_KEY);
 
-  fastify.get('/health', async (request, reply): Promise<ApiResponse> => {
+  fastify.get('/health', async (): Promise<ApiResponse> => {
     return {
       code: 0,
       sub_code: '',
@@ -20,51 +33,59 @@ const emailRoutes = (fastify: FastifyInstance) => {
     }
   });
 
-
   fastify.post<{ Body: Prisma.UserCreateInput }>('/send', async (request, reply): Promise<ApiResponse> => {
-    if(!request.body.email) return { code: 400, sub_code: '', msg: 'email is required', sub_msg: '' };
-    if(!request.body.did) return { code: 400, sub_code: '', msg: 'did is required', sub_msg: '' };
+    const { email, did, name } = request.body;
 
-    const reg = /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/;
-    if(!reg.test(request.body.email)) return { code: 400, sub_code: '', msg: 'email is invalid', sub_msg: '' };
+    // 参数验证
+    if(!email) return errorResponses.emailRequired;
+    if(!did) return errorResponses.didRequired;
+    if(!isValidEmail(email)) return errorResponses.invalidEmail;
 
-
-    try{
-      const user = await prisma.user.findUnique({
-        where: { email: request.body.email }
-      });
-      if(user) return { code: 400, sub_code: '', msg: 'email already exists', sub_msg: '' };
-    }catch(e){
+    // 检查用户是否已存在
+    try {
+      const existingUser = await prisma.user.findUnique({ where: { email } });
+      if(existingUser) return errorResponses.emailExists;
+    } catch(e) {
       fastify.log.error(e);
-      return { code: 500, sub_code: '', msg: "system error", sub_msg: '' };
+      return errorResponses.systemError;
     }
 
-
-
-    const result = await resend.emails.send({
+    // 发送邮件
+    const displayName = name || email;
+    const emailResult = await resend.emails.send({
       from: 'MindLink <info@updates.qdkf.net>',
-      // from: 'Acme <onboarding@resend.dev>',
-      to: [request.body.email],
+      to: [email],
       subject: 'Mind Link - Welcome to the waitlist',
-      react: WaitlistEmail({ name: request.body?.name || request.body.email }),
+      react: WaitlistEmail({ name: displayName }),
     });
-    if (result.error) return { code: 500, sub_code: '', msg: result.error.message, sub_msg: '' };
 
-    try{
-      await prisma.user.create({
-        data: {
-          name: request.body?.name || '',
-          email: request.body.email,
-          did: request.body.did
-        }
-      });
-    }catch(e){
-      fastify.log.error(e);
+    if (emailResult.error) {
+      return {
+        code: 500,
+        sub_code: '',
+        msg: emailResult.error.message,
+        sub_msg: ''
+      };
     }
 
-    return { code: 0, sub_code: '', msg: '', sub_msg: '', data: result.data?.id };
-  });
+    // 创建用户记录
+    try {
+      await prisma.user.create({
+        data: { name: name || '', email, did }
+      });
+    } catch(e) {
+      fastify.log.error(e);
+      // 这里不返回错误，仍然告知用户邮件发送成功
+    }
 
+    return {
+      code: 0,
+      sub_code: '',
+      msg: 'Email sent successfully',
+      sub_msg: '',
+      data: emailResult.data?.id
+    };
+  });
 }
 
 export default emailRoutes;
