@@ -54,17 +54,17 @@ const emailRoutes = (fastify: FastifyInstance) => {
       const { email, did, name } = request.body;
 
       // 参数验证
-      if (!email) return errorResponses.emailRequired;
-      if (!did) return errorResponses.didRequired;
-      if (!isValidEmail(email)) return errorResponses.invalidEmail;
+      if (!email) return reply.send(errorResponses.emailRequired);
+      if (!did) return reply.send(errorResponses.didRequired);
+      if (!isValidEmail(email)) return reply.send(errorResponses.invalidEmail);
 
       // 检查用户是否已存在
       try {
         const existingUser = await prisma.user.findUnique({ where: { email } });
-        if (existingUser) return errorResponses.emailExists;
+        if (existingUser) return reply.send(errorResponses.emailExists);
       } catch (e) {
         fastify.log.error(e);
-        return errorResponses.systemError;
+        return reply.send(errorResponses.systemError);
       }
 
       // 发送邮件
@@ -77,12 +77,12 @@ const emailRoutes = (fastify: FastifyInstance) => {
       });
 
       if (emailResult.error) {
-        return {
+        return reply.send({
           code: 500,
           sub_code: '',
           msg: emailResult.error.message,
           sub_msg: '',
-        };
+        });
       }
 
       // 创建用户记录
@@ -95,13 +95,13 @@ const emailRoutes = (fastify: FastifyInstance) => {
         // 这里不返回错误，仍然告知用户邮件发送成功
       }
 
-      return {
+      return reply.send({
         code: 0,
         sub_code: '',
         msg: 'Email sent successfully',
         sub_msg: '',
         data: emailResult.data?.id,
-      };
+      });
     },
   );
 };
