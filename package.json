@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "pm2 start src/index.js --name=ollama-proxy",
-    "stop": "pm2 stop ollama-proxy",
-    "restart": "pnpm run stop && pnpm run build && pnpm run start",
+    "start": "pm2 start dist/index.js --name=api-qdkf-net",
+    "stop": "pm2 stop api-qdkf-net",
     "check": "biome check --write",
     "format": "biome format --write",
     "seed": "ts-node prisma/seed.ts"

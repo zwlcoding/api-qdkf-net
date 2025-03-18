@@ -3,12 +3,11 @@ import fastifyCors from '@fastify/cors';
 import { FastifyPluginAsync } from 'fastify';
 
 const corsPlugin: FastifyPluginAsync = fastifyPlugin(async (fastify) => {
-
   const env = fastify.getEnvs<EnvSchema>();
 
   // 确保CORS配置有效
   const corsOptions = {
-    origin: env.CORS_ORIGIN === '*' ? "*" : env.CORS_ORIGIN.split(','),
+    origin: env.CORS_ORIGIN === '*' ? '*' : env.CORS_ORIGIN.split(','),
     methods: env.CORS_METHODS.split(','),
     allowedHeaders: env.CORS_HEADERS.split(','),
     exposedHeaders: env.CORS_HEADERS.split(','),

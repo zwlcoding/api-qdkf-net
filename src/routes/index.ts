@@ -2,7 +2,6 @@ import { FastifyInstance } from 'fastify';
 import exampleRoutes from './api/example';
 import emailRoutes from './api/email';
 
-
 export function registerRoutes(fastify: FastifyInstance) {
   fastify.get('/health', async () => {
     return { status: 'ok', timestamp: new Date().toISOString() };
@@ -16,5 +15,4 @@ export function registerRoutes(fastify: FastifyInstance) {
   // 示例API路由
   fastify.register(exampleRoutes, { prefix: '/api' });
   fastify.register(emailRoutes, { prefix: '/api/email' });
-
 }

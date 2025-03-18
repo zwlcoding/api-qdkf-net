@@ -19,7 +19,7 @@ const initialize = async () => {
 
 const startServer = async () => {
   try {
-    const env = fastify.getEnvs<EnvSchema>()
+    const env = fastify.getEnvs<EnvSchema>();
     await fastify.listen({
       host: env.SERVE_HOST,
       port: parseInt(env.SERVE_PORT, 10),

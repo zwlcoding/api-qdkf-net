@@ -5,8 +5,7 @@ type EnvSchema = {
   CORS_METHODS: string;
   CORS_HEADERS: string;
   RESEND_API_KEY: string;
-}
-
+};
 
 // 添加统一响应接口
 interface ApiResponse<T = any> {

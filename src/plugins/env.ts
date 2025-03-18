@@ -5,13 +5,19 @@ import { FastifyPluginAsync } from 'fastify';
 const envPlugin: FastifyPluginAsync = fastifyPlugin(async (fastify) => {
   const envSchema = {
     type: 'object',
-    required: ['SERVE_HOST', 'SERVE_PORT', 'CORS_ORIGIN', 'CORS_METHODS', 'CORS_HEADERS'],
+    required: [
+      'SERVE_HOST',
+      'SERVE_PORT',
+      'CORS_ORIGIN',
+      'CORS_METHODS',
+      'CORS_HEADERS',
+    ],
     properties: {
       SERVE_HOST: { type: 'string' },
       SERVE_PORT: { type: 'string' },
       CORS_ORIGIN: { type: 'string' },
       CORS_METHODS: { type: 'string' },
-      CORS_HEADERS: { type: 'string' }
+      CORS_HEADERS: { type: 'string' },
     },
   };
 

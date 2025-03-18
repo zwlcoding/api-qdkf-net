@@ -1,6 +1,5 @@
 import { FastifyInstance } from 'fastify';
 
-
 function exampleRoutes(fastify: FastifyInstance) {
   fastify.get('/health', async () => {
     return { status: 'example => ok', timestamp: new Date().toISOString() };

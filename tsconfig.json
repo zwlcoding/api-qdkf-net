@@ -6,7 +6,7 @@
     "rootDir": "./src",
     "strict": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "react",
+    "jsxImportSource": "react"
   },
   "include": ["src/**/*", "global.d.ts"],
   "exclude": ["node_modules", "**/*.test.ts"]
