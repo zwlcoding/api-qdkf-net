@@ -9,7 +9,8 @@
     "stop": "pm2 stop ollama-proxy",
     "restart": "pnpm run stop && pnpm run build && pnpm run start",
     "check": "biome check --write",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "@types/react": "^19.0.11",
     "nodemon": "^3.1.9",
     "pm2": "^6.0.5",
+    "prisma": "6.5.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
@@ -28,6 +30,7 @@
     "@fastify/cors": "^11.0.0",
     "@fastify/env": "^5.0.2",
     "@fastify/sensible": "^6.0.3",
+    "@prisma/client": "6.5.0",
     "@react-email/components": "^0.0.34",
     "fastify": "^5.2.1",
     "fastify-plugin": "^5.0.1",
