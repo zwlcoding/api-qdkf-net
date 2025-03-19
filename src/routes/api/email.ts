@@ -2,8 +2,15 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import { FastifyInstance } from 'fastify';
 import { Resend } from 'resend';
 import WaitlistEmail from '../../emails/waitlist';
+import WaitlistEmailEn from '../../emails/waitlist.en';
 
 const prisma = new PrismaClient();
+
+
+interface SendEmailBody extends Prisma.UserCreateInput {
+  currentLang: string;
+}
+
 
 // 定义标准错误响应
 const errorResponses = {
@@ -48,10 +55,10 @@ const emailRoutes = (fastify: FastifyInstance) => {
     };
   });
 
-  fastify.post<{ Body: Prisma.UserCreateInput }>(
+  fastify.post<{ Body: SendEmailBody }>(
     '/send',
     async (request, reply): Promise<ApiResponse> => {
-      const { email, did, name } = request.body;
+      const { email, did, name, currentLang } = request.body;
 
       // 参数验证
       if (!email) return reply.send(errorResponses.emailRequired);
@@ -73,7 +80,7 @@ const emailRoutes = (fastify: FastifyInstance) => {
         from: 'MindLink <info@updates.qdkf.net>',
         to: [email],
         subject: 'Mind Link - Welcome to the waitlist',
-        react: WaitlistEmail({ name: displayName }),
+        react: currentLang === 'zh' ? WaitlistEmail({ name: displayName }) : WaitlistEmailEn({ name: displayName }),
       });
 
       if (emailResult.error) {

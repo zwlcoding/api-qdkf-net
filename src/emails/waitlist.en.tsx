@@ -16,13 +16,13 @@ interface WaitlistEmailProps {
 export const WaitlistEmail = ({ name }: WaitlistEmailProps) => (
   <Html>
     <Head />
-    <Preview>感谢您加入我们的等候名单并感谢您的耐心等待</Preview>
+    <Preview>Thank you for joining our waitlist and for your patience</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>即将推出。</Heading>
+        <Heading style={h1}>Coming Soon.</Heading>
         <Text style={text}>
-          {name}，感谢您加入我们的等候名单并耐心等待。当我们有新消息时，
-          我们会发送通知给您。
+          Thank you {name} for joining our waitlist and for your patience. We
+          will send you a note when we have something new to share.
         </Text>
       </Container>
     </Body>
